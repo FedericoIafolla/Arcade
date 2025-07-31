@@ -176,7 +176,7 @@ body::after {
 }
 
 /* Stili Canvas Generali (per i giochi che mantengono il nuovo stile) */
-#penalty-canvas, #flappy-canvas, #doodle-canvas, #pong-canvas {
+#penalty-canvas, #flappy-canvas, #doodle-canvas, #pong-canvas, #breakout-canvas {
     border-radius: 10px;
     border: 2px solid var(--secondary-neon);
     box-shadow: 0 0 15px var(--secondary-neon);
@@ -188,6 +188,7 @@ body::after {
 #flappy-canvas { background-color: #1a2a6c; }
 #doodle-canvas { background-color: #0a0a1a; }
 #pong-canvas { background-color: #000; }
+#breakout-canvas { background-color: #000; }
 
 /* Snake - Centrato */
 #snake-screen {

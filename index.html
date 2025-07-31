@@ -25,6 +25,7 @@
                 <button class="menu-btn" data-game="doodle-jump">Doodle Jump</button>
                 <button class="menu-btn" data-game="pong">Pong</button>
                 <button class="menu-btn" data-game="machiavelli">Machiavelli (Eleonora's game)</button>
+                <button class="menu-btn" data-game="breakout">Breakout</button>
             </div>
         </div>
 
@@ -326,6 +327,24 @@
                 <h2 id="machiavelli-winner-message"></h2>
                 <button class="retry-btn" data-game="machiavelli">Rigioca</button>
                 <button class="exit-btn" data-game="machiavelli">Torna al Menu</button>
+            </div>
+        </div>
+
+        <!-- Schermata Breakout -->
+        <div id="breakout-screen" class="screen">
+            <div class="game-header">
+                <h2>Breakout</h2>
+                <div class="score-container">Punteggio: <span id="breakout-score">0</span> | Vite: <span id="breakout-lives">3</span></div>
+                <button class="back-btn" data-from="breakout">Torna al Menu</button>
+            </div>
+            <canvas id="breakout-canvas" width="800" height="600"></canvas>
+            <div class="game-start-overlay active">
+                <button class="start-btn" data-game="breakout">Start</button>
+            </div>
+            <div class="game-over-overlay">
+                <h2>Game Over</h2>
+                <button class="retry-btn" data-game="breakout">Riprova</button>
+                <button class="exit-btn" data-game="breakout">Esci</button>
             </div>
         </div>
     </div>

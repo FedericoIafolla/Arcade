@@ -124,6 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Inizializzo Machiavelli...");
                 initMachiavelli();
                 break;
+            case 'breakout':
+                console.log("Inizializzo Breakout...");
+                initBreakout();
+                break;
         }
     }
 
@@ -179,6 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'machiavelli':
                 console.log("Resetto Machiavelli...");
                 stopMachiavelli();
+                break;
+            case 'breakout':
+                console.log("Resetto Breakout...");
+                stopBreakout();
                 break;
         }
     }
@@ -1747,6 +1755,198 @@ document.addEventListener('DOMContentLoaded', () => {
         machiavelliPlayBtn.removeEventListener('click', playSelectedCards);
         machiavelliDrawBtn.removeEventListener('click', drawCard);
         machiavelliEndTurnBtn.removeEventListener('click', endTurn);
+    }
+
+    // --- LOGICA BREAKOUT ---
+    let breakoutCanvas, breakoutCtx, breakoutScoreDisplay, breakoutLivesDisplay;
+    let breakoutBall, paddle, bricks, breakoutScore, lives, breakoutGameLoop, breakoutKeys = {};
+
+    const ballProps = { radius: 10, speed: 4 };
+    const paddleProps = { width: 100, height: 20, speed: 12 };
+    const brickProps = { rowCount: 5, columnCount: 9, width: 75, height: 20, padding: 10, offsetTop: 50, offsetLeft: 30 };
+
+    function initBreakout() {
+        breakoutCanvas = document.getElementById('breakout-canvas');
+        breakoutCtx = breakoutCanvas.getContext('2d');
+        breakoutScoreDisplay = document.getElementById('breakout-score');
+        breakoutLivesDisplay = document.getElementById('breakout-lives');
+
+        breakoutScore = 0;
+        lives = 3;
+        breakoutScoreDisplay.textContent = breakoutScore;
+        breakoutLivesDisplay.textContent = lives;
+        breakoutKeys = {};
+
+        paddle = {
+            x: (breakoutCanvas.width - paddleProps.width) / 2,
+            y: breakoutCanvas.height - paddleProps.height - 20,
+            width: paddleProps.width,
+            height: paddleProps.height,
+            speed: paddleProps.speed
+        };
+
+        resetBallAndPaddle();
+        createBricks();
+
+        if (breakoutGameLoop) cancelAnimationFrame(breakoutGameLoop);
+        breakoutGameLoop = requestAnimationFrame(drawBreakoutGame);
+        document.addEventListener('keydown', handleBreakoutKeyDown);
+        document.addEventListener('keyup', handleBreakoutKeyUp);
+    }
+
+    function stopBreakout() {
+        cancelAnimationFrame(breakoutGameLoop);
+        document.removeEventListener('keydown', handleBreakoutKeyDown);
+        document.removeEventListener('keyup', handleBreakoutKeyUp);
+    }
+
+    function handleBreakoutKeyDown(e) { breakoutKeys[e.key.toLowerCase()] = true; }
+    function handleBreakoutKeyUp(e) { breakoutKeys[e.key.toLowerCase()] = false; }
+
+    function createBricks() {
+        bricks = [];
+        for (let c = 0; c < brickProps.columnCount; c++) {
+            bricks[c] = [];
+            for (let r = 0; r < brickProps.rowCount; r++) {
+                bricks[c][r] = { x: 0, y: 0, status: 1 };
+            }
+        }
+    }
+
+    function resetBallAndPaddle() {
+        breakoutBall = {
+            x: breakoutCanvas.width / 2,
+            y: breakoutCanvas.height - 50,
+            radius: ballProps.radius,
+            speed: ballProps.speed,
+            dx: ballProps.speed * (Math.random() > 0.5 ? 1 : -1),
+            dy: -ballProps.speed
+        };
+        paddle.x = (breakoutCanvas.width - paddle.width) / 2;
+    }
+
+    function drawBreakoutGame() {
+        if (!breakoutCtx) return;
+        breakoutCtx.clearRect(0, 0, breakoutCanvas.width, breakoutCanvas.height);
+
+        // Draw Ball
+        breakoutCtx.beginPath();
+        breakoutCtx.arc(breakoutBall.x, breakoutBall.y, breakoutBall.radius, 0, Math.PI * 2);
+        breakoutCtx.fillStyle = "#ff00ff"; // var(--primary-neon)
+        breakoutCtx.fill();
+        breakoutCtx.closePath();
+
+        // Draw Paddle
+        breakoutCtx.fillStyle = "#00ffff"; // var(--secondary-neon)
+        breakoutCtx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+
+        // Draw Bricks
+        drawBricks();
+
+        // Collision Detection
+        collisionDetection();
+
+        // Move Paddle
+        if ((breakoutKeys['arrowleft'] || breakoutKeys['a']) && paddle.x > 0) {
+            paddle.x -= paddle.speed;
+        }
+        if ((breakoutKeys['arrowright'] || breakoutKeys['d']) && paddle.x < breakoutCanvas.width - paddle.width) {
+            paddle.x += paddle.speed;
+        }
+
+        // Move Ball
+        breakoutBall.x += breakoutBall.dx;
+        breakoutBall.y += breakoutBall.dy;
+
+        // Wall Collision
+        if (breakoutBall.x + breakoutBall.dx > breakoutCanvas.width - breakoutBall.radius || breakoutBall.x + breakoutBall.dx < breakoutBall.radius) {
+            breakoutBall.dx = -breakoutBall.dx;
+            breakoutBall.dx *= 1.015;
+            breakoutBall.dy *= 1.015;
+            breakoutBall.speed = Math.sqrt(breakoutBall.dx**2 + breakoutBall.dy**2);
+        }
+        if (breakoutBall.y + breakoutBall.dy < breakoutBall.radius) {
+            breakoutBall.dy = -breakoutBall.dy;
+            breakoutBall.dx *= 1.015;
+            breakoutBall.dy *= 1.015;
+            breakoutBall.speed = Math.sqrt(breakoutBall.dx**2 + breakoutBall.dy**2);
+        }
+
+        // Paddle Collision
+        if (breakoutBall.y + breakoutBall.dy > paddle.y - breakoutBall.radius &&
+            breakoutBall.y + breakoutBall.dy < paddle.y + paddle.height &&
+            breakoutBall.x > paddle.x &&
+            breakoutBall.x < paddle.x + paddle.width) {
+            
+            // Aumenta la velocità del 8%
+            breakoutBall.speed *= 1.08;
+
+            // Calcola il punto di impatto sulla racchetta (-1 = sinistra, 0 = centro, 1 = destra)
+            let impactPoint = (breakoutBall.x - (paddle.x + paddle.width / 2)) / (paddle.width / 2);
+
+            // Calcola il nuovo angolo di rimbalzo. Max 60 gradi (PI/3)
+            let bounceAngle = impactPoint * (Math.PI / 3);
+
+            // Aggiorna le componenti della velocità in base al nuovo angolo e alla nuova velocità
+            breakoutBall.dx = breakoutBall.speed * Math.sin(bounceAngle);
+            breakoutBall.dy = -breakoutBall.speed * Math.cos(bounceAngle);
+        }
+
+        // Bottom Wall Collision (Lose a life)
+        if (breakoutBall.y + breakoutBall.dy > breakoutCanvas.height) {
+            lives--;
+            breakoutLivesDisplay.textContent = lives;
+            if (lives <= 0) {
+                showGameOverOverlay('breakout');
+                stopBreakout();
+            } else {
+                resetBallAndPaddle();
+            }
+        }
+
+        breakoutGameLoop = requestAnimationFrame(drawBreakoutGame);
+    }
+
+    function drawBricks() {
+        for (let c = 0; c < brickProps.columnCount; c++) {
+            for (let r = 0; r < brickProps.rowCount; r++) {
+                if (bricks[c][r].status === 1) {
+                    let brickX = (c * (brickProps.width + brickProps.padding)) + brickProps.offsetLeft;
+                    let brickY = (r * (brickProps.height + brickProps.padding)) + brickProps.offsetTop;
+                    bricks[c][r].x = brickX;
+                    bricks[c][r].y = brickY;
+                    breakoutCtx.beginPath();
+                    breakoutCtx.rect(brickX, brickY, brickProps.width, brickProps.height);
+                    breakoutCtx.fillStyle = "#00ffff"; // var(--secondary-neon)
+                    breakoutCtx.fill();
+                    breakoutCtx.closePath();
+                }
+            }
+        }
+    }
+
+    function collisionDetection() {
+        for (let c = 0; c < brickProps.columnCount; c++) {
+            for (let r = 0; r < brickProps.rowCount; r++) {
+                let b = bricks[c][r];
+                if (b.status === 1) {
+                    if (breakoutBall.x > b.x && breakoutBall.x < b.x + brickProps.width && breakoutBall.y > b.y && breakoutBall.y < b.y + brickProps.height) {
+                        breakoutBall.dy = -breakoutBall.dy;
+                        breakoutBall.dx *= 1.02;
+                        breakoutBall.dy *= 1.02;
+                        breakoutBall.speed = Math.sqrt(breakoutBall.dx**2 + breakoutBall.dy**2);
+                        b.status = 0;
+                        breakoutScore++;
+                        breakoutScoreDisplay.textContent = breakoutScore;
+
+                        if (breakoutScore === brickProps.rowCount * brickProps.columnCount) {
+                            showGameOverOverlay('breakout', 'Hai Vinto!');
+                            stopBreakout();
+                        }
+                    }
+                }
+            }
+        }
     }
 
 });
