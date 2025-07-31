@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala Giochi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Schermata Home -->
+        <div id="home-screen" class="screen active">
+            <h1 class="main-title">Sala Giochi</h1>
+            <div class="game-menu">
+                <button class="menu-btn" data-game="snake">Snake</button>
+                <button class="menu-btn" data-game="tic-tac-toe">Tris</button>
+                <button class="menu-btn" data-game="rps">Sasso Carta Forbici</button>
+                <button class="menu-btn" data-game="penalty-shootout">Calci di Rigore</button>
+                <button class="menu-btn" data-game="lumberjack">Lumberjack</button>
+                <button class="menu-btn" data-game="hangman">Impiccato</button>
+                <button class="menu-btn" data-game="flappy-bird">Flappy Bird</button>
+                <button class="menu-btn" data-game="doodle-jump">Doodle Jump</button>
+                <button class="menu-btn" data-game="pong">Pong</button>
+                <button class="menu-btn" data-game="machiavelli">Machiavelli (Eleonora's game)</button>
+            </div>
+        </div>
+
+        <!-- Schermata Snake -->
+        <div id="snake-screen" class="screen">
+            <div class="game-header">
+                <h2>Snake</h2>
+                <div class="score-container">Punteggio: <span id="snake-score">0</span></div>
+                <button class="back-btn" data-from="snake">Torna al Menu</button>
+            </div>
+            <canvas id="snake-canvas" width="400" height="400"></canvas>
+            <div class="game-start-overlay active">
+                <button class="start-btn" data-game="snake">Start</button>
+            </div>
+            <div class="game-over-overlay">
+                <h2>Game Over</h2>
+                <button class="retry-btn" data-game="snake">Riprova</button>
+                <button class="exit-btn" data-game="snake">Esci</button>
+            </div>
+        </div>
+
+        <!-- Schermata Tris -->
+        <div id="tic-tac-toe-screen" class="screen">
+            <div class="game-header">
+                <h2>Tris</h2>
+                <div class="score-container">
+                    <span>Giocatore X: <span id="ttt-score-x">0</span></span>
+                    <span>Giocatore O: <span id="ttt-score-o">0</span></span>
+                </div>
+                <button class="back-btn" data-from="tic-tac-toe">Torna al Menu</button>
+            </div>
+            <div id="ttt-board"></div>
+            <div id="ttt-status"></div>
+            <div class="game-start-overlay active">
+                <button class="start-btn" data-game="tic-tac-toe">Start</button>
+            </div>
+            <div class="game-over-overlay">
+                <h2>Game Over</h2>
+                <button class="retry-btn" data-game="tic-tac-toe">Riprova</button>
+                <button class="exit-btn" data-game="tic-tac-toe">Esci</button>
+            </div>
+        </div>
+
+        <!-- Schermata Sasso Carta Forbici -->
+        <div id="rps-screen" class="screen">
+            <div class="game-header">
+                <h2>Sasso Carta Forbici</h2>
+                 <div class="score-container">
+                    <span>Giocatore 1: <span id="rps-score-p1">0</span></span>
+                    <span>Giocatore 2: <span id="rps-score-p2">0</span></span>
+                </div>
+                <button class="back-btn" data-from="rps">Torna al Menu</button>
+            </div>
+            <div id="rps-game-area">
+                <div id="rps-p1-area" class="rps-player-area">
+                    <h3>Giocatore 1</h3>
+                    <p>Fai la tua scelta!</p>
+                    <div class="rps-choices">
+                        <button class="rps-choice-btn" data-choice="rock">Sasso</button>
+                        <button class="rps-choice-btn" data-choice="paper">Carta</button>
+                        <button class="rps-choice-btn" data-choice="scissors">Forbici</button>
+                    </div>
+                </div>
+                <div id="rps-reveal-area">
+                    <div class="rps-reveal-box" id="rps-p1-reveal">?</div>
+                    <div class="rps-reveal-box" id="rps-p2-reveal">?</div>
+                </div>
+                <div id="rps-p2-area" class="rps-player-area" style="display: none;">
+                    <h3>Giocatore 2</h3>
+                    <p>Fai la tua scelta!</p>
+                    <div class="rps-choices">
+                        <button class="rps-choice-btn" data-choice="rock">Sasso</button>
+                        <button class="rps-choice-btn" data-choice="paper">Carta</button>
+                        <button class="rps-choice-btn" data-choice="scissors">Forbici</button>
+                    </div>
+                </div>
+            </div>
+            <div id="rps-status"></div>
+            <div class="game-start-overlay active">
+                <button class="start-btn" data-game="rps">Start</button>
+            </div>
+            <div class="game-over-overlay">
+                <h2>Game Over</h2>
+                <button class="retry-btn" data-game="rps">Riprova</button>
+                <button class="exit-btn" data-game="rps">Esci</button>
+            </div>
+        </div>
+
+        <!-- Schermata Calci di Rigore -->
+        <div id="penalty-shootout-screen" class="screen">
+            <div class="game-header">
+                <h2>Calci di Rigore</h2>
+                <div class="score-container">Gol: <span id="penalty-score-gol">0</span> | Errori: <span id="penalty-score-errori">0</span></div>
+                <button class="back-btn" data-from="penalty-shootout">Torna al Menu</button>
+            </div>
+            <canvas id="penalty-canvas" width="800" height="500"></canvas>
+            <div id="penalty-instructions">Premi Spazio per bloccare la direzione e poi per la potenza!</div>
+            <div class="game-start-overlay active">
+                <button class="start-btn" data-game="penalty-shootout">Start</button>
+            </div>
+            <div class="game-over-overlay">
+                <h2>Game Over</h2>
+                <button class="retry-btn" data-game="penalty-shootout">Riprova</button>
+                <button class="exit-btn" data-game="penalty-shootout">Esci</button>
+            </div>
+        </div>
+
+        <!-- Schermata Lumberjack -->
+        <div id="lumberjack-screen" class="screen">
+            <div class="game-header">
+                <h2>Lumberjack</h2>
+                <div class="score-container">Punteggio: <span id="lumberjack-score">0</span></div>
+                <button class="back-btn" data-from="lumberjack">Torna al Menu</button>
+            </div>
+            <div id="lumberjack-game-area">
+                <div id="lumberjack-time-bar-container">
+                    <div id="lumberjack-time-bar"></div>
+                </div>
+                <div id="lumberjack-tree">
+                    <div id="lumberjack-player" style="display: none;">
+                        <div class="player-sprite">
+                            <div class="player-head"></div>
+                            <div class="player-body"></div>
+                            <div class="player-axe">
+                                <div class="axe-handle"></div>
+                                <div class="axe-head"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div id="lumberjack-game-over-overlay" class="game-over-overlay">
+                    <h2>Game Over</h2>
+                    <button class="retry-btn" data-game="lumberjack">Riprova</button>
+                    <button class="exit-btn" data-game="lumberjack">Esci</button>
+                </div>
+            </div>
+            <div class="game-start-overlay active">
+                <button class="start-btn" data-game="lumberjack">Start</button>
+            </div>
+        </div>
+
+        <!-- Schermata Impiccato -->
+        <div id="hangman-screen" class="screen">
+            <div class="game-header">
+                <h2>Impiccato</h2>
+                <div class="score-container">Vittorie: <span id="hangman-score">0</span></div>
+                <button class="back-btn" data-from="hangman">Torna al Menu</button>
+            </div>
+            <div id="hangman-game-area">
+                <div id="hangman-drawing-container">
+                    <svg id="hangman-drawing" viewBox="0 0 200 250">
+                        <!-- Base -->
+                        <line x1="10" y1="230" x2="130" y2="230" stroke="#fff" stroke-width="4"/>
+                        <!-- Palo -->
+                        <line x1="70" y1="230" x2="70" y2="20" stroke="#fff" stroke-width="4"/>
+                        <!-- Trave -->
+                        <line x1="70" y1="20" x2="150" y2="20" stroke="#fff" stroke-width="4"/>
+                        <!-- Corda -->
+                        <line id="hangman-rope" x1="150" y1="20" x2="150" y2="50" stroke="#fff" stroke-width="4"/>
+                        <!-- Pezzi del corpo (nascosti) -->
+                        <circle id="hangman-head" cx="150" cy="70" r="20" stroke="var(--secondary-color)" stroke-width="4" fill="none" class="hangman-part"/>
+                        <line id="hangman-body" x1="150" y1="90" x2="150" y2="150" stroke="var(--secondary-color)" stroke-width="4" class="hangman-part"/>
+                        <line id="hangman-arm-l" x1="150" y1="110" x2="120" y2="130" stroke="var(--secondary-color)" stroke-width="4" class="hangman-part"/>
+                        <line id="hangman-arm-r" x1="150" y1="110" x2="180" y2="130" stroke="var(--secondary-color)" stroke-width="4" class="hangman-part"/>
+                        <line id="hangman-leg-l" x1="150" y1="150" x2="120" y2="180" stroke="var(--secondary-color)" stroke-width="4" class="hangman-part"/>
+                        <line id="hangman-leg-r" x1="150" y1="150" x2="180" y2="180" stroke="var(--secondary-color)" stroke-width="4" class="hangman-part"/>
+                    </svg>
+                </div>
+                <div id="hangman-interactive-area">
+                    <div id="hangman-word"></div>
+                    <div id="hangman-keyboard"></div>
+                </div>
+            </div>
+            <div class="game-start-overlay active">
+                <button class="start-btn" data-game="hangman">Start</button>
+            </div>
+            <div class="game-over-overlay">
+                <h2>Game Over</h2>
+                <button class="retry-btn" data-game="hangman">Riprova</button>
+                <button class="exit-btn" data-game="hangman">Esci</button>
+            </div>
+        </div>
+
+        <!-- Schermata Flappy Bird -->
+        <div id="flappy-bird-screen" class="screen">
+            <div class="game-header">
+                <h2>Flappy Bird</h2>
+                <div class="score-container">Punteggio: <span id="flappy-score">0</span></div>
+                <button class="back-btn" data-from="flappy-bird">Torna al Menu</button>
+            </div>
+            <canvas id="flappy-canvas" width="400" height="600"></canvas>
+            <div class="game-instructions">Premi Spazio per saltare!</div>
+            <div class="game-start-overlay active">
+                <button class="start-btn" data-game="flappy-bird">Start</button>
+            </div>
+            <div class="game-over-overlay">
+                <h2>Game Over</h2>
+                <button class="retry-btn" data-game="flappy-bird">Riprova</button>
+                <button class="exit-btn" data-game="flappy-bird">Esci</button>
+            </div>
+        </div>
+
+        <!-- Schermata Doodle Jump -->
+        <div id="doodle-jump-screen" class="screen">
+            <div class="game-header">
+                <h2>Doodle Jump</h2>
+                <div class="score-container">Punteggio: <span id="doodle-score">0</span></div>
+                <button class="back-btn" data-from="doodle-jump">Torna al Menu</button>
+            </div>
+            <canvas id="doodle-canvas" width="400" height="600"></canvas>
+            <div class="game-instructions">Usa le Frecce per muoverti!</div>
+            <div class="game-start-overlay active">
+                <button class="start-btn" data-game="doodle-jump">Start</button>
+            </div>
+            <div class="game-over-overlay">
+                <h2>Game Over</h2>
+                <button class="retry-btn" data-game="doodle-jump">Riprova</button>
+                <button class="exit-btn" data-game="doodle-jump">Esci</button>
+            </div>
+        </div>
+
+        <!-- Schermata Pong -->
+        <div id="pong-screen" class="screen">
+            <div class="game-header">
+                <h2>Pong</h2>
+                <div class="score-container">
+                    <span>P1: <span id="pong-score-p1">0</span></span>
+                    <span>P2: <span id="pong-score-p2">0</span></span>
+                </div>
+                <button class="back-btn" data-from="pong">Torna al Menu</button>
+            </div>
+            <div id="pong-menu">
+                <h3>Impostazioni Partita</h3>
+                <div class="pong-setting">
+                    <label>Modalità:</label>
+                    <button class="pong-menu-btn active" data-mode="cpu">Player vs CPU</button>
+                    <button class="pong-menu-btn" data-mode="2p">Player 1 vs Player 2</button>
+                </div>
+                <div class="pong-setting" id="pong-difficulty-setting">
+                    <label>Difficoltà CPU:</label>
+                    <button class="pong-menu-btn difficulty-btn active" data-difficulty="easy">Facile</button>
+                    <button class="pong-menu-btn difficulty-btn" data-difficulty="medium">Medio</button>
+                    <button class="pong-menu-btn difficulty-btn" data-difficulty="hard">Difficile</button>
+                </div>
+                <div class="pong-setting">
+                    <label>Punti per vincere:</label>
+                    <button class="pong-menu-btn score-btn active" data-score="3">3</button>
+                    <button class="pong-menu-btn score-btn" data-score="5">5</button>
+                    <button class="pong-menu-btn score-btn" data-score="7">7</button>
+                </div>
+                <button id="pong-start-btn">Inizia Partita</button>
+            </div>
+            <canvas id="pong-canvas" width="800" height="500" style="display: none;"></canvas>
+             <div id="pong-winner-overlay" class="game-over-overlay">
+                <h2 id="pong-winner-message"></h2>
+                <button class="retry-btn" data-game="pong">Rigioca</button>
+                <button class="exit-btn" data-game="pong">Torna al Menu</button>
+            </div>
+        </div>
+
+        <!-- Schermata Machiavelli -->
+        <div id="machiavelli-screen" class="screen">
+            <div class="game-header">
+                <h2>Machiavelli (Eleonora's game)</h2>
+                <button class="back-btn" data-from="machiavelli">Torna al Menu</button>
+            </div>
+            <div id="machiavelli-menu">
+                <h3>Impostazioni Partita</h3>
+                <div class="machiavelli-setting">
+                    <label>Modalità:</label>
+                    <button class="machiavelli-menu-btn active" data-mode="1cpu">Player vs 1 CPU</button>
+                    <button class="machiavelli-menu-btn" data-mode="3cpu">Player vs 3 CPU</button>
+                    <button class="machiavelli-menu-btn" data-mode="2p">Player vs Player</button>
+                </div>
+                <div class="machiavelli-setting">
+                    <label>Difficoltà CPU:</label>
+                    <button class="machiavelli-menu-btn difficulty-btn active" data-difficulty="easy">Facile</button>
+                    <button class="machiavelli-menu-btn difficulty-btn" data-difficulty="medium">Medio</button>
+                    <button class="machiavelli-menu-btn difficulty-btn" data-difficulty="hard">Difficile</button>
+                </div>
+                <button id="machiavelli-start-btn">Inizia Partita</button>
+            </div>
+            <div id="machiavelli-game-area" style="display: none;">
+                <div id="machiavelli-scores"></div>
+                <div id="machiavelli-table"></div>
+                <div id="machiavelli-player-hand" class="hand-area"></div>
+                <div id="machiavelli-opponents"></div>
+                <div id="machiavelli-deck-area">
+                    <div id="machiavelli-deck"></div>
+                    <div id="machiavelli-discard-pile"></div>
+                </div>
+                 <div id="machiavelli-game-controls">
+                    <button id="machiavelli-play-btn">Gioca Selezionate</button>
+                    <button id="machiavelli-draw-btn">Pesca</button>
+                    <button id="machiavelli-end-turn-btn">Passa il Turno</button>
+                </div>
+            </div>
+            <div id="machiavelli-winner-overlay" class="game-over-overlay">
+                <h2 id="machiavelli-winner-message"></h2>
+                <button class="retry-btn" data-game="machiavelli">Rigioca</button>
+                <button class="exit-btn" data-game="machiavelli">Torna al Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

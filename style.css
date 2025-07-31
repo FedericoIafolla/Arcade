@@ -1,0 +1,269 @@
+/* --- ARCADE NEON THEME --- */
+
+:root {
+    --background-color: #0d0d21; /* Blu notte profondo */
+    --primary-neon: #ff00ff;   /* Magenta acceso */
+    --secondary-neon: #00ffff; /* Ciano brillante */
+    --text-color: #f0f0f0;
+    --container-bg: rgba(10, 10, 30, 0.8);
+    --border-color: rgba(0, 255, 255, 0.5);
+    --font-title: 'Press Start 2P', cursive;
+    --font-body: 'Roboto Mono', monospace;
+
+    /* Colori Originali per i giochi */
+    --original-primary: #3498db;
+    --original-secondary: #2ecc71;
+    --original-bg: #1a1a1a;
+    --original-container-bg: #2c3e50;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    overflow: hidden; /* Nasconde le barre di scorrimento */
+}
+
+/* Effetto Scanlines per un look retro CRT */
+body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 6px 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    background-color: var(--container-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 25px var(--primary-neon), inset 0 0 15px rgba(0, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.screen {
+    display: none;
+    position: relative;
+}
+
+.screen.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Titoli con effetto Neon */
+.main-title, .game-header h2 {
+    font-family: var(--font-title);
+    color: var(--primary-neon);
+    text-align: center;
+    font-size: 2.5rem;
+    text-shadow:
+        0 0 5px var(--primary-neon),
+        0 0 10px var(--primary-neon),
+        0 0 20px var(--primary-neon),
+        0 0 40px #fff,
+        0 0 50px #fff;
+    animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+        0 0 4px var(--primary-neon),
+        0 0 11px var(--primary-neon),
+        0 0 19px var(--primary-neon),
+        0 0 40px #fff,
+        0 0 80px #fff;
+    }
+    20%, 24%, 55% {        
+        text-shadow: none;
+    }
+}
+
+/* Pulsanti Neon */
+.menu-btn, .back-btn, .start-btn, .retry-btn, .exit-btn, .pong-menu-btn, #pong-start-btn, .machiavelli-menu-btn, #machiavelli-start-btn {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.menu-btn:hover, .back-btn:hover, .start-btn:hover, .retry-btn:hover, .exit-btn:hover, .pong-menu-btn:hover, #pong-start-btn:hover, .machiavelli-menu-btn:hover, #machiavelli-start-btn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+.pong-menu-btn.active, .machiavelli-menu-btn.active {
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    border-color: var(--primary-neon);
+    box-shadow: 0 0 20px var(--primary-neon);
+}
+
+.game-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Header di Gioco */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.game-header h2 { font-size: 2rem; margin: 0; }
+.score-container { font-size: 1rem; font-weight: 700; color: var(--secondary-neon); }
+.back-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
+
+/* Overlay (Start / Game Over) */
+.game-start-overlay, .game-over-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(13, 13, 33, 0.9);
+    color: white;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    border-radius: 15px;
+    backdrop-filter: blur(3px);
+}
+
+.game-start-overlay.active, .game-over-overlay.active {
+    display: flex;
+}
+
+.game-over-overlay h2, .game-start-overlay h2 {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    color: var(--primary-neon);
+    text-shadow: 0 0 10px var(--primary-neon);
+    margin-bottom: 2rem;
+    text-align: center; /* Assicura la centratura del testo */
+}
+
+/* Stili Canvas Generali (per i giochi che mantengono il nuovo stile) */
+#penalty-canvas, #flappy-canvas, #doodle-canvas, #pong-canvas {
+    border-radius: 10px;
+    border: 2px solid var(--secondary-neon);
+    box-shadow: 0 0 15px var(--secondary-neon);
+    display: block;
+    margin: 0 auto;
+}
+
+#penalty-canvas { background: linear-gradient(to bottom, #1a2a6c, #0d1d4a); }
+#flappy-canvas { background-color: #1a2a6c; }
+#doodle-canvas { background-color: #0a0a1a; }
+#pong-canvas { background-color: #000; }
+
+/* Snake - Centrato */
+#snake-screen {
+    text-align: center;
+}
+#snake-canvas {
+    background-color: #1a1a1a;
+    border: 3px solid var(--original-secondary);
+    display: inline-block; /* Per centrare correttamente */
+    border-radius: 10px;
+}
+
+/* --- Stili Originali Ripristinati --- */
+
+/* Tris */
+#tic-tac-toe-screen { text-align: center; }
+#ttt-board { display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); gap: 10px; justify-content: center; margin: 2rem 0; }
+.ttt-cell { width: 100px; height: 100px; background-color: #34495e; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 4rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; color: var(--text-color); }
+.ttt-cell:hover { background-color: #4a627a; }
+.ttt-cell.X { color: var(--original-primary); }
+.ttt-cell.O { color: var(--original-secondary); }
+#ttt-status { font-size: 1.5rem; min-height: 2.5rem; font-weight: 600; color: var(--text-color); }
+
+/* Sasso Carta Forbici */
+#rps-game-area { display: flex; justify-content: space-around; align-items: flex-start; margin-top: 2rem; }
+.rps-player-area { text-align: center; flex-basis: 30%; }
+.rps-choices { display: flex; flex-direction: column; gap: 10px; margin-top: 1rem; }
+.rps-choice-btn { background-color: var(--original-secondary); color: white; padding: 1rem; border: none; border-radius: 10px; cursor: pointer; }
+.rps-choice-btn:hover { background-color: #27ae60; }
+#rps-reveal-area { display: flex; gap: 20px; align-items: center; perspective: 1000px; margin-top: 3rem; }
+.rps-reveal-box { width: 133px; height: 187px; font-size: 4rem; display: flex; justify-content: center; align-items: center; background-color: #34495e; border: 3px solid white; color: white; transition: transform 0.6s; transform-style: preserve-3d; }
+.rps-reveal-box.flipped { transform: rotateY(180deg); }
+#rps-status { text-align: center; font-size: 1.5rem; margin-top: 2rem; min-height: 2.5rem; font-weight: 600; color: var(--text-color); }
+
+/* Lumberjack */
+#lumberjack-game-area { position: relative; width: 300px; height: 600px; margin: 1rem auto 0; overflow: hidden; border: 5px solid #8B4513; border-radius: 10px; background-color: #a0d8ef; }
+#lumberjack-time-bar-container { position: absolute; top: 10px; left: 10%; width: 80%; height: 20px; background-color: rgba(0,0,0,0.3); border-radius: 10px; z-index: 10; }
+#lumberjack-time-bar { width: 100%; height: 100%; background-color: var(--original-secondary); border-radius: 10px; transition: width 0.1s linear; }
+#lumberjack-tree { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 100%; }
+.tree-segment { position: absolute; width: 100%; height: 100px; background-color: #A0522D; border-bottom: 5px solid #8B4513; box-sizing: border-box; transition: bottom 0.1s linear; }
+.branch { position: absolute; width: 80px; height: 40px; background-color: #556B2F; top: 30px; border-radius: 20px; }
+.branch.left { left: -70px; }
+.branch.right { right: -70px; }
+#lumberjack-player { position: absolute; bottom: 0; width: 100px; height: 100px; z-index: 5; transition: left 0.1s ease; left: 0px; }
+
+#lumberjack-player-dot { position: absolute; bottom: 40px; width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: left 0.1s ease; }
+
+/* Impiccato */
+#hangman-game-area { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; margin-top: 1rem; }
+#hangman-drawing-container { flex: 1 1 30%; display: flex; justify-content: center; align-items: center; border: 3px solid var(--original-primary); border-radius: 10px; padding: 1rem; background-color: var(--original-bg); }
+#hangman-drawing { width: 100%; max-width: 250px; height: auto; }
+.hangman-part { stroke: var(--original-secondary); stroke-width: 4; fill: none; display: none; }
+.hangman-part.visible { display: block; }
+#hangman-word { display: flex; flex-wrap: wrap; gap: 10px; font-size: 2rem; margin-bottom: 2rem; justify-content: center; }
+.letter-placeholder { border-bottom: 3px solid var(--text-color); width: 35px; height: 50px; text-align: center; line-height: 50px; font-weight: bold; }
+#hangman-keyboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); gap: 8px; width: 100%; max-width: 600px; }
+.key-btn { padding: 0.8rem 0.5rem; font-size: 1.1rem; border: none; border-radius: 5px; cursor: pointer; background-color: var(--original-primary); color: white; }
+.key-btn:hover { background-color: #2980b9; }
+.key-btn:disabled { background-color: #555; opacity: 0.6; cursor: not-allowed; }
+
+/* Machiavelli */
+#machiavelli-game-area { position: relative; height: 70vh; background-color: #006400; border-radius: 10px; padding: 1rem; display: flex; flex-direction: column; }
+#machiavelli-scores { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; font-size: 1.2rem; font-weight: bold; }
+.player-score { padding: 0.5rem 1rem; background-color: rgba(0,0,0,0.3); border-radius: 5px; }
+.player-score.active { box-shadow: 0 0 10px var(--original-secondary); }
+#machiavelli-table { flex-grow: 1; border: 2px dashed rgba(255,255,255,0.3); border-radius: 10px; padding: 10px; display: flex; flex-wrap: wrap; gap: 10px; align-content: flex-start; overflow-y: auto; }
+.hand-area { height: 120px; background-color: rgba(0,0,0,0.2); padding: 10px; margin-top: 1rem; border-radius: 10px; display: flex; justify-content: center; align-items: center; gap: 5px; }
+.card { width: 70px; height: 100px; background-color: white; color: black; border-radius: 5px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; padding: 5px; font-size: 1.5rem; font-weight: bold; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+.card.selected { transform: translateY(-15px); box-shadow: 0 5px 15px var(--original-primary); }
+.card .suit { font-size: 1.2rem; }
+.card.red { color: #e74c3c; }
+.card.black { color: #34495e; }
+#machiavelli-game-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; }
+
+/* Menu specifici (Pong, Machiavelli) */
+#pong-menu, #machiavelli-menu { background-color: var(--container-bg); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color); margin: 2rem auto; max-width: 600px; }
+#pong-menu h3, #machiavelli-menu h3 { font-family: var(--font-title); color: var(--primary-neon); font-size: 1.5rem; margin-bottom: 1.5rem; }
+.pong-setting, .machiavelli-setting { margin-bottom: 1.5rem; }
+.pong-setting label, .machiavelli-setting label { display: block; margin-bottom: 0.8rem; font-size: 1rem; font-weight: 700; color: var(--secondary-neon); }
