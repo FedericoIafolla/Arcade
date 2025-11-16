@@ -1,0 +1,201 @@
+.rpsGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.gameHeader {
+    display: flex;
+    /* Removed justify-content: space-between; */
+    gap: 20px; /* Added gap for spacing between items */
+    align-items: center;
+    max-width: 800px; /* Increased max-width */
+    width: 90%;
+    margin-bottom: 20px;
+    font-family: var(--font-title);
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.gameHeader h2 {
+    font-size: 1.8em;
+    margin: 0;
+    text-shadow:
+        0 0 5px var(--secondary-neon),
+        0 0 10px var(--secondary-neon);
+    animation: flicker 1.5s infinite alternate; /* No white light for in-game title */
+    flex-shrink: 1; /* Allow title to shrink */
+    min-width: 0; /* Allow shrinking below content size */
+}
+
+.scoreContainer {
+    font-size: 0.9em;
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+    display: flex; /* Use flexbox to arrange children */
+    flex-direction: column; /* Stack children vertically */
+    align-items: flex-start; /* Align items to the start */
+    flex-shrink: 0; /* Prevent score container from shrinking */
+    margin-right: 50px; /* Reduce space to the right */
+    margin-left: 18rem;
+}
+
+.backBtn {
+    font-family: var(--font-title);
+    font-size: 0.8em;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.backBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+.message {
+    font-family: var(--font-title);
+    font-size: 1.5em;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.rpsGameArea {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 800px; /* Adjust as needed */
+}
+
+.rpsPlayerArea {
+    text-align: center;
+    flex-basis: 30%;
+}
+
+.rpsChoices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.rpsRevealArea {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    perspective: 1000px;
+    margin-top: 3rem;
+}
+
+.rpsRevealBox {
+    width: 133px;
+    height: 187px;
+    font-size: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent; /* Parent is transparent, inner handles color */
+    border: none; /* Parent has no border, inner handles border */
+    color: white;
+    transition: transform 0.6s; /* Original transition duration */
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.rpsRevealBoxInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s; /* Apply transition to inner for flip */
+    transform-style: preserve-3d;
+}
+
+.rpsRevealBoxFront, .rpsRevealBoxBack {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hide the backface during rotation */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px; /* Apply border-radius to faces */
+}
+
+.rpsRevealBoxFront {
+    background-color: #34495e; /* Dark blue-gray for front (card back) */
+    border: 3px solid white;
+    color: white;
+    transform: rotateY(0deg);
+}
+
+.rpsRevealBoxBack {
+    background-color: var(--container-bg); /* Background for back (choice) */
+    border: 3px solid white; /* Changed to white */
+    color: var(--primary-neon);
+    transform: rotateY(180deg); /* Initially rotated to be the back */
+}
+
+.rpsRevealBox.flipped .rpsRevealBoxInner {
+    transform: rotateY(180deg); /* Rotate the inner container to flip */
+}
+
+.choiceBtn {
+    font-family: var(--font-title);
+    font-size: 1em;
+    color: var(--primary-neon);
+    background-color: transparent;
+    border: 2px solid var(--primary-neon);
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon), inset 0 0 5px rgba(255, 0, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.choiceBtn:hover:not(:disabled) {
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    box-shadow: 0 0 25px var(--primary-neon);
+}
+
+.choiceBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Class to temporarily disable transitions */
+.no-transition {
+    transition: none !important;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+        0 0 4px var(--primary-neon),
+        0 0 11px var(--primary-neon),
+        0 0 19px var(--primary-neon);
+    }
+    20%, 24%, 55% {        
+        text-shadow: none;
+    }
+}

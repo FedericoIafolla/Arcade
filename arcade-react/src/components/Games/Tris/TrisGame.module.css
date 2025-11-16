@@ -1,0 +1,158 @@
+.trisScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 320px; /* Adjust to match board width */
+    width: 90%;
+    margin-bottom: 10px;
+    font-family: var(--font-title);
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.gameHeader h2 {
+    font-size: 1.5em;
+    margin: 0;
+    text-shadow:
+        0 0 5px var(--secondary-neon),
+        0 0 10px var(--secondary-neon);
+    animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+        0 0 4px var(--secondary-neon),
+        0 0 11px var(--secondary-neon),
+        0 0 19px var(--secondary-neon);
+    }
+    20%, 24%, 55% {        
+        text-shadow: none;
+    }
+}
+
+.status {
+    font-size: 1em; /* Reduced font size */
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+}
+
+.backBtn {
+    font-family: var(--font-title);
+    font-size: 0.8em;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+.gameBoard {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+    background-color: #000000; /* Dark background for the board */
+    border: 2px solid var(--secondary-neon);
+    box-shadow: 0 0 15px var(--secondary-neon), inset 0 0 10px rgba(0, 255, 255, 0.3);
+    padding: 5px;
+}
+
+.boardRow {
+    display: contents; /* Allows squares to be direct children of gameBoard grid */
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent dark for cells */
+    border: 1px solid var(--border-color);
+    font-family: var(--font-title);
+    font-size: 3em;
+    /* color: var(--primary-neon); Removed default color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    /* text-shadow: 0 0 5px var(--primary-neon); Removed default text-shadow */
+}
+
+.xMarker {
+    color: var(--primary-neon); /* Magenta for X */
+    text-shadow: 0 0 5px var(--primary-neon);
+}
+
+.oMarker {
+    color: var(--secondary-neon); /* Cyan for O */
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.square:hover {
+    background-color: rgba(0, 255, 255, 0.1); /* Cyan hover effect */
+    box-shadow: 0 0 10px var(--secondary-neon);
+}
+
+.square:focus {
+    outline: none;
+    box-shadow: 0 0 15px var(--secondary-neon);
+}
+
+.resetButtonContainer {
+    margin-top: 20px;
+}
+
+.resetBtn {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    color: var(--primary-neon);
+    background-color: transparent;
+    border: 2px solid var(--primary-neon);
+    border-radius: 8px;
+    padding: 12px 25px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon), inset 0 0 5px rgba(255, 0, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.resetBtn:hover {
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    box-shadow: 0 0 25px var(--primary-neon);
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+        0 0 4px var(--primary-neon),
+        0 0 11px var(--primary-neon),
+        0 0 19px var(--primary-neon);
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}

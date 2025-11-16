@@ -1,0 +1,16 @@
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 4px var(--secondary-neon),
+            0 0 11px var(--secondary-neon),
+            0 0 19px var(--secondary-neon),
+            0 0 40px var(--secondary-neon),
+            0 0 80px var(--secondary-neon),
+            0 0 90px var(--secondary-neon),
+            0 0 100px var(--secondary-neon),
+            0 0 150px var(--secondary-neon);
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}

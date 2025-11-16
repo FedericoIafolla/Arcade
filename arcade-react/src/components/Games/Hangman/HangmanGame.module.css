@@ -1,0 +1,238 @@
+.hangmanGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    gap: 20px;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 4px var(--primary-neon),
+            0 0 11px var(--primary-neon),
+            0 0 19px var(--primary-neon);
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+.gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 900px; /* Wider for hangman */
+    width: 90%;
+    margin-bottom: 20px;
+    font-family: var(--font-title);
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.gameHeader h2 {
+    font-size: 1.8em;
+    margin: 0;
+    text-shadow:
+        0 0 5px var(--secondary-neon),
+        0 0 10px var(--secondary-neon);
+    animation: flicker 1.5s infinite alternate;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.status {
+    font-size: 1em;
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+    flex-shrink: 0;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.backBtn {
+    font-family: var(--font-title);
+    font-size: 0.8em;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-left: -4rem;
+}
+
+.backBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+.categorySelection {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid var(--primary-neon);
+    box-shadow: 0 0 15px var(--primary-neon);
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.categorySelection h3 {
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.categoryBtn {
+    font-family: var(--font-title);
+    font-size: 1.2em;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    width: 200px;
+}
+
+.categoryBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+.gameArea {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+    justify-content: center;
+    width: 90%;
+    max-width: 1000px;
+    padding: 20px;
+    border: 2px solid var(--primary-neon);
+    box-shadow: 0 0 15px var(--primary-neon);
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.hangmanDrawingContainer {
+    width: 250px;
+    height: 300px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-right: 20px;
+}
+
+.hangmanDrawingSvg {
+    width: 100%;
+    height: 100%;
+    overflow: visible; /* Ensure parts outside viewBox are not clipped */
+}
+
+.gallowsPart {
+    stroke: var(--text-color);
+    stroke-width: 4;
+    transition: stroke 0.3s ease;
+}
+
+.hangmanPart {
+    stroke: var(--primary-neon);
+    stroke-width: 4;
+    fill: none;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease;
+}
+
+.hangmanPart.visible {
+    opacity: 1;
+}
+
+
+.wordDisplayContainer {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.categoryName {
+    font-size: 1.2em;
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+    margin-bottom: 10px;
+}
+
+.wordDisplay {
+    display: flex;
+    gap: 10px;
+    font-family: var(--font-title);
+    font-size: 2.5em;
+    color: var(--primary-neon);
+    text-shadow: 0 0 10px var(--primary-neon);
+    letter-spacing: 5px;
+}
+
+.wordChar {
+    border-bottom: 2px solid var(--primary-neon);
+    padding: 0 5px;
+    min-width: 30px; /* Ensure consistent spacing for underscores */
+    text-align: center;
+}
+
+.guessedLetters {
+    font-size: 1.1em;
+    color: var(--text-color);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    margin-top: 20px;
+}
+
+.winsInARow {
+    font-size: 1.2em;
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+    margin-top: 10px;
+}
+
+.resetButtonContainer {
+    margin-top: 20px;
+}
+
+.resetBtn {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    color: var(--primary-neon);
+    background-color: transparent;
+    border: 2px solid var(--primary-neon);
+    border-radius: 8px;
+    padding: 12px 25px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon), inset 0 0 5px rgba(255, 0, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.resetBtn:hover {
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    box-shadow: 0 0 25px var(--primary-neon);
+}

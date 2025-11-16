@@ -1,0 +1,342 @@
+.affariTuoiGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    gap: 20px;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 4px var(--primary-neon),
+            0 0 11px var(--primary-neon),
+            0 0 19px var(--primary-neon);
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+.gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1600px; /* Wider for this game */
+    width: 90%;
+    margin-bottom: 20px;
+    font-family: var(--font-title);
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.gameHeader h2 {
+    font-size: 1.8em;
+    margin: 0;
+    text-shadow:
+        0 0 5px var(--secondary-neon),
+        0 0 10px var(--secondary-neon);
+    animation: flicker 1.5s infinite alternate;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.backBtn {
+    font-family: var(--font-title);
+    font-size: 0.8em;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-left: -4rem;
+}
+
+.backBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+.gameArea {
+    display: flex;
+    gap: 40px; /* Increased gap for more "air" */
+    width: 95%; /* Slightly wider */
+    max-width: 1600px; /* Increased max-width for more space */
+    padding: 30px; /* Increased padding */
+    border: 2px solid var(--primary-neon);
+    box-shadow: 0 0 15px var(--primary-neon);
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    min-height: 750px; /* Increased min-height */
+}
+
+.leftColumn {
+    flex: 1; /* Player pack column */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align player pack to the top of its column */
+    padding-top: 50px; /* Push player pack down to align with other packs */
+}
+
+.rightColumn {
+    flex: 1; /* Prize list column */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centerColumn {
+    flex: 3; /* Wider for packs and offer */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.message {
+    font-size: 1.5em;
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+    text-align: center;
+    min-height: 30px; /* To prevent layout shift */
+}
+
+.initialPackSelection {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.packsDisplayArea {
+    display: flex;
+    flex-direction: column; /* Stack other packs above player pack */
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.otherPacksContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* 6-7 packs per row, responsive */
+    gap: 10px; /* Spacing between packs */
+    width: 100%;
+    max-width: 800px; /* Adjust as needed for desired number of columns */
+    justify-items: center; /* Center items within their grid cells */
+}
+
+.playerPackArea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pack {
+    width: 100px;
+    height: 120px;
+    background-color: var(--secondary-neon);
+    border: 3px solid var(--secondary-neon);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: var(--font-title);
+    font-size: 1.2em;
+    color: var(--background-color);
+    text-shadow: 0 0 5px var(--background-color);
+    box-shadow: 0 0 10px var(--secondary-neon);
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.pack:hover:not(.open):not(.playerPack):not(.eliminated) {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 20px var(--secondary-neon);
+}
+
+.pack.playerPack {
+    width: 150px;
+    height: 180px;
+    font-size: 1.8em;
+    background-color: var(--primary-neon);
+    border-color: var(--primary-neon);
+    box-shadow: 0 0 15px var(--primary-neon);
+    cursor: default;
+    margin-bottom: 20px; /* Add some space below the player pack */
+}
+
+.pack.open {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--primary-neon);
+    border-color: var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon);
+    cursor: default;
+}
+
+.pack.eliminated {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}
+
+.packNumber {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.packRegion {
+    position: absolute;
+    bottom: 10px;
+    font-size: 0.7em;
+    text-align: center;
+    width: 90%;
+    word-wrap: break-word;
+}
+
+.prizeValue {
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--primary-neon);
+    text-shadow: 0 0 8px var(--primary-neon);
+}
+
+.prizeList {
+    width: 100%;
+    max-width: 250px; /* Slightly wider prize list */
+    padding: 15px; /* Increased padding */
+    border: 2px solid var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prizeList h3 {
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.prizeList ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.prizeList li {
+    font-family: var(--font-body);
+    font-size: 1em;
+    color: var(--text-color);
+    text-align: right;
+    padding-right: 5px;
+    position: relative;
+}
+
+.prizeList li.eliminatedPrize {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.offerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 30px;
+    border: 2px solid var(--secondary-neon);
+    box-shadow: 0 0 15px var(--secondary-neon);
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.offerMessage {
+    font-size: 1.8em;
+    color: var(--secondary-neon);
+    text-shadow: 0 0 8px var(--secondary-neon);
+    text-align: center;
+}
+
+.offerButtons {
+    display: flex;
+    gap: 15px;
+}
+
+.offerBtn {
+    font-family: var(--font-title);
+    font-size: 1.1em;
+    color: var(--primary-neon);
+    background-color: transparent;
+    border: 2px solid var(--primary-neon);
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon), inset 0 0 5px rgba(255, 0, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.offerBtn:hover {
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    box-shadow: 0 0 25px var(--primary-neon);
+}
+
+.gameOverContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.resetBtn {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    color: var(--primary-neon);
+    background-color: transparent;
+    border: 2px solid var(--primary-neon);
+    border-radius: 8px;
+    padding: 12px 25px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon), inset 0 0 5px rgba(255, 0, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.resetBtn:hover {
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    box-shadow: 0 0 25px var(--primary-neon);
+}
+
+.finalResultSummary {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-neon);
+    text-shadow: 0 0 8px var(--primary-neon);
+    text-align: center;
+    margin-bottom: 20px;
+    white-space: pre-line; /* To respect newline characters in the message */
+}

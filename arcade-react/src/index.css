@@ -1,0 +1,68 @@
+/* --- ARCADE NEON THEME --- */
+
+:root {
+    --background-color: #0d0d21; /* Deep night blue */
+    --primary-neon: #ff00ff;   /* Bright magenta */
+    --secondary-neon: #00ffff; /* Bright cyan */
+    --text-color: #f0f0f0;
+    --container-bg: rgba(10, 10, 30, 0.8);
+    --border-color: rgba(0, 255, 255, 0.5);
+    --font-title: 'Press Start 2P', cursive;
+    --font-body: 'Roboto Mono', monospace;
+}
+
+/* Global body styles - applied to the root of the application */
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    overflow: hidden; /* Hides scrollbars */
+}
+
+/* Scanlines effect for a retro CRT look */
+body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 6px 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Styling for the root element to create a wider central encapsulation */
+#root {
+    max-width: 1200px; /* Set a wider max-width for the central section */
+    width: 100%; /* Ensure it takes full width up to max-width */
+    margin: 0 auto; /* Center the root element horizontally */
+    /* Add any other desired styling for the root container */
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+        0 0 4px var(--primary-neon),
+        0 0 11px var(--primary-neon),
+        0 0 19px var(--primary-neon),
+        0 0 40px #fff,
+        0 0 80px #fff;
+    }
+    20%, 24%, 55% {        
+        text-shadow: none;
+    }
+}

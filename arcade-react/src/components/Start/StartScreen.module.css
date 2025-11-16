@@ -1,0 +1,102 @@
+.startOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Make overlay background transparent */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.startOverlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.overlayContent {
+    width: 90%;
+    max-width: 500px; /* Adjust max-width as needed for game overlays */
+    background-color: var(--container-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 25px var(--primary-neon), inset 0 0 15px rgba(0, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.overlayContent h2 {
+    margin-bottom: 20px;
+}
+
+.titleFlicker {
+    font-family: var(--font-title);
+    font-size: 2.5em;
+    color: var(--primary-neon);
+    text-shadow:
+        0 0 5px var(--primary-neon),
+        0 0 10px var(--primary-neon),
+        0 0 20px var(--primary-neon),
+        0 0 20px #fff,
+        0 0 30px #fff;
+    animation: flicker 1.5s infinite alternate;
+}
+
+.startBtn, .backBtn {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    color: var(--primary-neon); /* Use primary neon for action buttons */
+    background-color: transparent;
+    border: 2px solid var(--primary-neon);
+    border-radius: 8px;
+    padding: 12px 25px;
+    margin: 10px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon), inset 0 0 5px rgba(255, 0, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.startBtn:hover {
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    box-shadow: 0 0 25px var(--primary-neon);
+}
+
+.backBtn {
+    color: var(--secondary-neon); /* Use secondary neon for exit */
+    border: 2px solid var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.backBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+        0 0 4px var(--primary-neon),
+        0 0 11px var(--primary-neon),
+        0 0 19px var(--primary-neon),
+        0 0 20px #fff,
+        0 0 40px #fff;
+    }
+    20%, 24%, 55% {        
+        text-shadow: none;
+    }
+}

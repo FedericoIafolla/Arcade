@@ -1,0 +1,78 @@
+.snakeScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Use min-height to allow content to grow */
+    color: var(--text-color);
+    font-family: var(--font-body);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    position: relative; /* Needed for ::after pseudo-element */
+    overflow: hidden;
+}
+
+.gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px; /* Max width to align with canvas */
+    width: 90%; /* Make it flexible */
+    margin-bottom: 10px;
+    font-family: var(--font-title);
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.gameHeader h2 {
+    font-size: 1.5em;
+    margin: 0;
+    text-shadow:
+        0 0 5px var(--secondary-neon),
+        0 0 10px var(--secondary-neon);
+    animation: flicker 1.5s infinite alternate;
+}
+
+.scoreContainer {
+    font-size: 1.2em;
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+}
+
+.backBtn {
+    font-family: var(--font-title);
+    font-size: 0.8em;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+.snakeCanvas {
+    background-color: transparent; /* Canvas background is handled by JS drawing */
+    border: 2px solid var(--secondary-neon);
+    box-shadow: 0 0 15px var(--secondary-neon), inset 0 0 10px rgba(0, 255, 255, 0.3);
+    display: block;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+        0 0 4px var(--primary-neon),
+        0 0 11px var(--primary-neon),
+        0 0 19px var(--primary-neon);
+    }
+    20%, 24%, 55% {        
+        text-shadow: none;
+    }
+}

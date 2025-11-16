@@ -1,0 +1,195 @@
+.chessGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+        0 0 4px var(--primary-neon),
+        0 0 11px var(--primary-neon),
+        0 0 19px var(--primary-neon);
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+.gameHeader {
+    display: flex;
+    gap: 9rem; /* Reduced gap */
+    align-items: center;
+    max-width: 520px; /* Adjust to match board width (8 * 65px) */
+    width: 90%;
+    margin-bottom: 20px;
+    font-family: var(--font-title);
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.gameHeader h2 {
+    font-size: 1.8em;
+    margin: 0;
+    text-shadow:
+        0 0 5px var(--secondary-neon),
+        0 0 10px var(--secondary-neon); /* Re-added static text-shadow for base glow */
+    animation: flicker 1.5s infinite alternate;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.status {
+    font-size: 1em;
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+    flex-shrink: 0; /* Prevent shrinking */
+    white-space: nowrap; /* Prevent wrapping */
+    text-align: center;
+}
+
+.backBtn {
+    font-family: var(--font-title);
+    font-size: 0.8em;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-left: -4rem;
+}
+
+.backBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+.gameArea {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    gap: 20px; /* Space between lists and board */
+    margin-top: 20px; /* Space below game header */
+}
+
+.capturedPiecesList {
+    display: flex;
+    flex-direction: column;
+    width: 120px; /* Fixed width for the list */
+    padding: 10px;
+    border: 2px solid var(--primary-neon); /* Example border */
+    box-shadow: 0 0 10px var(--primary-neon);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    font-size: 0.9em;
+}
+
+.capturedPiecesList h3 {
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.capturedPieceItem {
+    margin-bottom: 5px;
+}
+
+.boardContainer {
+    display: grid;
+    grid-template-columns: repeat(8, 65px); /* 8 columns, 65px each */
+    grid-template-rows: repeat(8, 65px); /* 8 rows, 65px each */
+    border: 3px solid var(--secondary-neon);
+    box-shadow: 0 0 15px var(--secondary-neon);
+    background-color: #000; /* Overall board background */
+}
+
+.boardRow {
+    display: contents; /* Allows squares to be direct children of boardContainer grid */
+}
+
+.square {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif; /* For chess piece emojis */
+    font-size: 3em; /* Increased font size for larger pieces */
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+}
+
+.lightSquare {
+    background-color: #a0a0a0; /* Muted light gray */
+    color: #36454F; /* Charcoal for pieces */
+}
+
+.darkSquare {
+    background-color: #505050; /* Muted dark gray */
+    color: #f0f8ff; /* AliceBlue for pieces */
+}
+
+.selectedSquare {
+    background-color: rgba(255, 255, 0, 0.5); /* Yellow highlight for selected square */
+    box-shadow: 0 0 10px yellow;
+}
+
+.possibleMove {
+    background-color: rgba(0, 255, 0, 0.3); /* Green highlight for possible moves */
+    box-shadow: 0 0 8px green;
+}
+
+/* Retro piece styling - will be refined */
+.piece {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+}
+
+.whitePiece {
+    color: #f0f8ff; /* AliceBlue */
+    text-shadow: 0 0 5px #f0f8ff, 0 0 2px black, 0 0 2px black; /* Added black border */
+}
+
+.blackPiece {
+    color: #36454F; /* Charcoal */
+    text-shadow: 0 0 5px #36454F, 0 0 2px white, 0 0 2px white; /* Added white border */
+}
+
+/* Game Over / Reset Button */
+.resetButtonContainer {
+    margin-top: 20px;
+}
+
+.resetBtn {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    color: var(--primary-neon);
+    background-color: transparent;
+    border: 2px solid var(--primary-neon);
+    border-radius: 8px;
+    padding: 12px 25px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon), inset 0 0 5px rgba(255, 0, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.resetBtn:hover {
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    box-shadow: 0 0 25px var(--primary-neon);
+}

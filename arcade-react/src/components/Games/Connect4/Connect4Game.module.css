@@ -1,0 +1,186 @@
+.connect4Game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 4px var(--primary-neon),
+            0 0 11px var(--primary-neon),
+            0 0 19px var(--primary-neon);
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+.gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 500px; /* Adjust to match board width */
+    width: 90%;
+    margin-bottom: 20px;
+    font-family: var(--font-title);
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.gameHeader h2 {
+    font-size: 1.8em;
+    margin: 0;
+    text-shadow:
+        0 0 5px var(--secondary-neon),
+        0 0 10px var(--secondary-neon);
+    animation: flicker 1.5s infinite alternate;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.status {
+    font-size: 1em;
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+    flex-shrink: 0;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.backBtn {
+    font-family: var(--font-title);
+    font-size: 0.8em;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--secondary-neon);
+    box-shadow: 0 0 10px var(--secondary-neon), inset 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-left: -4rem;
+}
+
+.backBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+    box-shadow: 0 0 25px var(--secondary-neon);
+}
+
+.connect4Game {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    gap: 10px; /* Space between game header, drop areas, and board */
+}
+
+.columnDropAreas {
+    display: grid;
+    grid-template-columns: repeat(7, 70px); /* Match board columns */
+    height: 50px; /* Height for the drop area */
+    gap: 5px; /* Match board gap */
+    padding: 5px; /* Match board padding */
+    background-color: rgba(0, 0, 0, 0.5); /* Slightly transparent background */
+    border: 3px solid var(--primary-neon);
+    box-shadow: 0 0 15px var(--primary-neon), inset 0 0 10px rgba(255, 0, 255, 0.3);
+    border-bottom: none; /* No border at the bottom */
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
+}
+
+.columnDropArea {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.columnDropArea:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
+}
+
+.boardContainer {
+    display: grid;
+    grid-template-columns: repeat(7, 70px); /* 7 columns, 70px each */
+    grid-template-rows: repeat(6, 70px); /* 6 rows, 70px each */
+    gap: 5px;
+    background-color: #000000; /* Dark background for the board */
+    border: 3px solid var(--primary-neon);
+    box-shadow: 0 0 15px var(--primary-neon), inset 0 0 10px rgba(255, 0, 255, 0.3);
+    padding: 5px;
+    border-top: none; /* No border at the top */
+    border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+}
+
+.cell {
+    width: 70px;
+    height: 70px;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent dark for cells */
+    border: 1px solid var(--border-color);
+    border-radius: 50%; /* Make cells circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Hide overflowing pieces during animation */
+}
+
+.piece {
+    width: 60px; /* Slightly smaller than cell to show border */
+    height: 60px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+.player1Piece {
+    background-color: #ff0000; /* Red */
+    box-shadow: 0 0 10px #ff0000, inset 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.player2Piece {
+    background-color: #ffff00; /* Yellow */
+    box-shadow: 0 0 10px #ffff00, inset 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.resetButtonContainer {
+    margin-top: 20px;
+}
+
+.resetBtn {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    color: var(--primary-neon);
+    background-color: transparent;
+    border: 2px solid var(--primary-neon);
+    border-radius: 8px;
+    padding: 12px 25px;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon), inset 0 0 5px rgba(255, 0, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.resetBtn:hover {
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    box-shadow: 0 0 25px var(--primary-neon);
+}
