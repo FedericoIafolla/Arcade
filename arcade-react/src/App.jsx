@@ -1,18 +1,19 @@
 import React, { useState, useCallback } from 'react';
 import Menu from './Menu.jsx';
 import SnakeGame from './components/Games/Snake/SnakeGame.jsx';
-import TrisGame from './components/Games/Tris/TrisGame.jsx'; // Import TrisGame
-import RPSGame from './components/Games/SassoCartaForbici/RPSGame.jsx'; // Import RPSGame
-import ChessGame from './components/Games/Chess/ChessGame.jsx'; // Import ChessGame
-import Connect4Game from './components/Games/Connect4/Connect4Game.jsx'; // Import Connect4Game
-import HangmanGame from './components/Games/Hangman/HangmanGame.jsx'; // Import HangmanGame
+import TrisGame from './components/Games/Tris/TrisGame.jsx';
+import RPSGame from './components/Games/SassoCartaForbici/RPSGame.jsx';
+import ChessGame from './components/Games/Chess/ChessGame.jsx';
+import Connect4Game from './components/Games/Connect4/Connect4Game.jsx';
+import HangmanGame from './components/Games/Hangman/HangmanGame.jsx';
 import AffariTuoiGame from './components/Games/AffariTuoi/AffariTuoiGame.jsx'; // Import AffariTuoiGame
+import MilionarioGame from './components/Games/Milionario/MilionarioGame.jsx';
 import StartScreen from './components/Start/StartScreen.jsx';
 import GameOverScreen from './components/GameOver/GameOverScreen.jsx';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('menu'); // 'menu', 'start_game', 'active_game', 'game_over'
-  const [selectedGame, setSelectedGame] = useState(null); // 'snake', 'tris', 'rps', 'chess', 'connect4', 'hangman', 'affari_tuoi'
+  const [selectedGame, setSelectedGame] = useState(null); // 'snake', 'tris', 'rps', 'chess', 'connect4', 'hangman', 'affari_tuoi', 'milionario'
   const [gameOverInfo, setGameOverInfo] = useState({ score: 0, winner: null }); // For Snake score or Tris/RPS/Chess winner
 
   const handleGameSelect = useCallback((gameName) => {
@@ -43,6 +44,8 @@ function App() {
       setGameOverInfo({ score: 0, winner: info }); // Hangman uses winner string
     } else if (selectedGame === 'affari_tuoi') {
       setGameOverInfo({ score: 0, winner: info }); // Affari Tuoi uses winner string (e.g., "Hai vinto X€!")
+    } else if (selectedGame === 'milionario') {
+        setGameOverInfo({ score: 0, winner: info });
     }
     setCurrentScreen('game_over');
   }, [selectedGame]);
@@ -112,6 +115,13 @@ function App() {
           onBackToMenu={handleBackToMenu}
         />
       )}
+      {currentScreen === 'start_game' && selectedGame === 'milionario' && (
+        <StartScreen
+          gameName="Chi vuol essere Milionario?"
+          onStartGame={handleStartGame}
+          onBackToMenu={handleBackToMenu}
+        />
+      )}
 
       {currentScreen === 'active_game' && selectedGame === 'snake' && (
         <SnakeGame
@@ -151,6 +161,12 @@ function App() {
       )}
       {currentScreen === 'active_game' && selectedGame === 'affari_tuoi' && (
         <AffariTuoiGame
+          onGameOver={handleGameOver}
+          onBackToMenu={handleBackToMenu}
+        />
+      )}
+      {currentScreen === 'active_game' && selectedGame === 'milionario' && (
+        <MilionarioGame
           onGameOver={handleGameOver}
           onBackToMenu={handleBackToMenu}
         />
@@ -205,8 +221,16 @@ function App() {
           onExit={handleBackToMenu}
         />
       )}
+       {currentScreen === 'game_over' && selectedGame === 'milionario' && (
+        <GameOverScreen
+          score={gameOverInfo.winner}
+          onRetry={handleRetryGame}
+          onExit={handleBackToMenu}
+        />
+      )}
     </>
   );
 }
 
 export default App;
+

@@ -9,7 +9,7 @@ const REGIONS = [
 ];
 
 const PRIZES = [
-    1, 5, 10, 20, 50, 75, 100, 200, 500,
+    0, 5, 10, 20, 50, 75, 100, 200, 500,
     1000, 5000, 10000, 15000, 20000, 30000, 50000, 75000, 100000, 200000, 300000
 ];
 
@@ -282,37 +282,39 @@ const AffariTuoiGame = ({ onGameOver, onBackToMenu }) => {
                 </div>
                 <div className={styles.centerColumn}>
                     <p className={styles.message}>{message}</p>
-                    {gamePhase === 'initial_selection' && (
-                        <div className={styles.initialPackSelection}>
-                            {packs.map(pack => (
-                                <div
-                                    key={pack.id}
-                                    className={styles.pack}
-                                    onClick={() => handlePackSelection(pack.id)}
-                                >
-                                    <span className={styles.packNumber}>{pack.id + 1}</span>
-                                    <span className={styles.packRegion}>{pack.region}</span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {gamePhase !== 'initial_selection' && renderPacks()}
-
-                    {(gamePhase === 'offer' || gamePhase === 'final_offer') && bankerOffer && (
-                        <div className={styles.offerContainer}>
-                            <p className={styles.offerMessage}>
-                                Offerta del Dottore:
-                                {bankerOffer.type === 'cash' ? ` ${formatCurrency(bankerOffer.value)}€` : ' Cambio Pacco'}
-                            </p>
-                            <div className={styles.offerButtons}>
-                                <button className={styles.offerBtn} onClick={() => handleOfferDecision('accept')}>Accetta</button>
-                                <button className={styles.offerBtn} onClick={() => handleOfferDecision('reject')}>
-                                    {gamePhase === 'final_offer' ? 'Rifiuta e Apri Pacco' : 'Rifiuta'}
-                                </button>
+                    <div className={styles.mainContentArea}>
+                        {gamePhase === 'initial_selection' && (
+                            <div className={styles.initialPackSelection}>
+                                {packs.map(pack => (
+                                    <div
+                                        key={pack.id}
+                                        className={styles.pack}
+                                        onClick={() => handlePackSelection(pack.id)}
+                                    >
+                                        <span className={styles.packNumber}>{pack.id + 1}</span>
+                                        <span className={styles.packRegion}>{pack.region}</span>
+                                    </div>
+                                ))}
                             </div>
-                        </div>
-                    )}
+                        )}
+
+                        {(gamePhase === 'opening_packs' || gamePhase === 'awaiting_swap_selection') && renderPacks()}
+
+                        {(gamePhase === 'offer' || gamePhase === 'final_offer') && bankerOffer && (
+                            <div className={styles.offerContainer}>
+                                <p className={styles.offerMessage}>
+                                    Offerta del Dottore:
+                                    {bankerOffer.type === 'cash' ? ` ${formatCurrency(bankerOffer.value)}€` : ' Cambio Pacco'}
+                                </p>
+                                <div className={styles.offerButtons}>
+                                    <button className={styles.offerBtn} onClick={() => handleOfferDecision('accept')}>Accetta</button>
+                                    <button className={styles.offerBtn} onClick={() => handleOfferDecision('reject')}>
+                                        {gamePhase === 'final_offer' ? 'Rifiuta e Apri Pacco' : 'Rifiuta'}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
 
                     {gamePhase === 'game_over' && (
                         <div className={styles.gameOverContainer}>

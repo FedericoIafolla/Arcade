@@ -22,7 +22,7 @@ body {
     align-items: center;
     min-height: 100vh;
     text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
-    overflow: hidden; /* Hides scrollbars */
+    overflow: auto; /* Hides scrollbars */
 }
 
 /* Scanlines effect for a retro CRT look */
@@ -39,6 +39,26 @@ body::after {
     z-index: 100;
 }
 
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-neon);
+    border-radius: 10px;
+    box-shadow: 0 0 8px var(--secondary-neon);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00e0e0; /* A slightly different cyan on hover */
+}
+
 /* Keyframes for animations */
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -47,7 +67,7 @@ body::after {
 
 /* Styling for the root element to create a wider central encapsulation */
 #root {
-    max-width: 1200px; /* Set a wider max-width for the central section */
+    max-width: 1400px; /* Set a wider max-width for the central section */
     width: 100%; /* Ensure it takes full width up to max-width */
     margin: 0 auto; /* Center the root element horizontally */
     /* Add any other desired styling for the root container */

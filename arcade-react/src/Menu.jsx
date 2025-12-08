@@ -15,6 +15,7 @@ const Menu = ({ onGameSelect }) => {
                     <button className={styles.menuBtn} onClick={() => onGameSelect('connect4')}>Forza 4</button>
                     <button className={styles.menuBtn} onClick={() => onGameSelect('affari_tuoi')}>Affari Tuoi</button>
                     <button className={styles.menuBtn} onClick={() => onGameSelect('hangman')}>L'impiccato</button>
+                    <button className={styles.menuBtn} onClick={() => onGameSelect('milionario')}>Chi vuol essere Milionario?</button>
                     {/* More buttons will go here */}
                 </div>
             </div>

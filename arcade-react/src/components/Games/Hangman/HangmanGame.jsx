@@ -3,41 +3,29 @@ import styles from './HangmanGame.module.css';
 
 const CATEGORIES = {
     informatica: [
-        "programmazione", "algoritmo", "hardware", "software", "database",
-        "internet", "cibernetica", "intelligenza", "artificiale", "crittografia",
-        "virtuale", "sicurezza", "compilatore", "framework", "repository",
-        "debuggare", "deployare", "interfaccia", "protocollo", "terminale",
-        "interoperabilità", "decentralizzazione", "microservizi", "virtualizzazione",
-        "criptovaluta", "architettura", "ottimizzazione", "documentazione",
-        "manutenzione", "containerizzazione"
+        "algoritmo", "applicazione", "backup", "browser", "cache", "cloud", "cookie", "database", "debug", "dominio", 
+        "download", "firewall", "firmware", "frontend", "funzione", "hardware", "hosting", "javascript", "kernel", "libreria", 
+        "malware", "monitor", "network", "password", "pixel", "processore", "router", "server", "software", "variabile"
     ],
     sport: [
-        "calcio", "basket", "tennis", "nuoto", "atletica", "ciclismo",
-        "pallavolo", "rugby", "sci", "boxe", "golf", "scherma",
-        "canottaggio", "equitazione", "ginnastica", "judo", "karate", "taekwondo",
-        "surf", "vela", "arrampicata", "baseball", "hockey", "badminton",
-        "squash", "bowling", "freccette", "biliardo", "corsa", "maratona"
+        "allenamento", "arbitro", "atletica", "badminton", "canoa", "casco", "cestista", "ciclismo", "corsa", "difensore", 
+        "ginnastica", "guantoni", "maratona", "medaglia", "nuotatore", "olimpiade", "palleggio", "pattinaggio", "portiere", "pugilato", 
+        "racchetta", "rigore", "squadra", "stadio", "staffetta", "tabellone", "tifoso", "torneo", "traguardo", "vittoria"
     ],
     storia: [
-        "romani", "egizi", "greci", "medioevo", "rinascimento", "rivoluzione",
-        "francese", "mondiale", "guerra", "impero", "faraone", "piramidi",
-        "colosseo", "gladiatori", "vichinghi", "crociate", "scoperta", "america",
-        "napoleone", "fascismo", "nazismo", "comunismo", "democrazia", "repubblica",
-        "monarchia", "feudalesimo", "barbaro", "conquista", "battaglia", "trattato"
+        "anfiteatro", "archeologia", "armistizio", "assiro", "babilonese", "castello", "catacombe", "cavaliere", "civiltà", "colonia", 
+        "costituzione", "dittatore", "dinastia", "esploratore", "faraone", "fossile", "geroglifico", "impero", "inquisizione", "legionario", 
+        "manoscritto", "monumento", "papiro", "pergamena", "plebeo", "preistoria", "repubblica", "rivolta", "sovrano", "trattato"
     ],
     cucina: [
-        "pasta", "pizza", "lasagne", "risotto", "tiramisu", "gelato",
-        "pane", "formaggio", "salsiccia", "prosciutto", "verdura", "frutta",
-        "carne", "pesce", "dolce", "salato", "spezie", "erbe",
-        "olio", "aceto", "vino", "birra", "caffe", "latte",
-        "uova", "farina", "zucchero", "sale", "pepe", "cioccolato"
+        "antipasto", "basilico", "biscotto", "bollitore", "bottiglia", "casseruola", "cavatappi", "cena", "colazione", "condimento", 
+        "contorno", "cucchiaio", "forchetta", "frullatore", "ingrediente", "merenda", "mescolare", "origano", "padella", "piatto", 
+        "pranzo", "ricetta", "rosmarino", "scolapasta", "spezia", "spremuta", "tagliere", "teglia", "tovagliolo", "zuppa"
     ],
     cinema: [
-        "film", "attore", "attrice", "regista", "sceneggiatura", "oscar",
-        "commedia", "dramma", "horror", "fantascienza", "azione", "thriller",
-        "animazione", "documentario", "western", "musical", "effetti", "speciali",
-        "colonna", "sonora", "protagonista", "antagonista", "dialogo", "trama",
-        "finale", "sequel", "remake", "critica", "incasso", "festival"
+        "anteprima", "attore", "biglietto", "blockbuster", "cast", "ciak", "cinepresa", "colossal", "commedia", "comparsa", 
+        "cortometraggio", "costume", "doppiaggio", "drammatico", "fantascienza", "festival", "fotografia", "inquadratura", "montaggio", "produttore", 
+        "proiettore", "regista", "sceneggiatore", "schermo", "sonoro", "trama", "trailer", "truccatore", "videocamera", "visivo"
     ]
 };
 
@@ -47,6 +35,8 @@ CATEGORIES.generale = [...new Set(allWords)]; // Use Set to ensure unique words
 
 const MAX_INCORRECT_GUESSES = 6;
 const WIN_STREAK_TARGET = 10;
+
+const normalizeString = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
 const HangmanGame = ({ onGameOver, onBackToMenu }) => {
     const [currentScreen, setCurrentScreen] = useState('category_selection'); // 'category_selection', 'active_game', 'game_over'
@@ -109,26 +99,27 @@ const HangmanGame = ({ onGameOver, onBackToMenu }) => {
     }, [currentScreen, selectedCategory, initializeRound]);
 
     const updateDisplayedWord = useCallback((word, guessed) => {
-        return word.split('').map(char => (guessed.has(char) ? char : '_')).join('');
+        return word.split('').map(char => (guessed.has(normalizeString(char.toLowerCase())) ? char : '_')).join('');
     }, []);
 
     const handleGuess = useCallback((letter) => {
-        if (gameOver || roundWon || !letter || !letter.match(/[a-z]/i)) return;
+        if (gameOver || roundWon || !letter || !letter.match(/[a-zà-ú]/i)) return;
 
         const lowerCaseLetter = letter.toLowerCase();
+        const normalizedLetter = normalizeString(lowerCaseLetter);
 
-        if (guessedLetters.has(lowerCaseLetter)) {
-            setMessage(`Hai già provato la lettera '${lowerCaseLetter.toUpperCase()}'.`);
+        if (guessedLetters.has(normalizedLetter)) {
+            setMessage(`Hai già provato la lettera '${normalizedLetter.toUpperCase()}'.`);
             return;
         }
 
-        const newGuessedLetters = new Set(guessedLetters).add(lowerCaseLetter);
+        const newGuessedLetters = new Set(guessedLetters).add(normalizedLetter);
         setGuessedLetters(newGuessedLetters);
 
-        if (wordToGuess.includes(lowerCaseLetter)) {
+        if (normalizeString(wordToGuess).includes(normalizedLetter)) {
             const newDisplayedWord = updateDisplayedWord(wordToGuess, newGuessedLetters);
             setDisplayedWord(newDisplayedWord);
-            if (newDisplayedWord === wordToGuess) {
+            if (normalizeString(newDisplayedWord) === normalizeString(wordToGuess)) {
                 setRoundWon(true);
                 setWinsInARow(prev => {
                     const newWins = prev + 1;

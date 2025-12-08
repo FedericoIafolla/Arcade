@@ -1,0 +1,323 @@
+.milionarioGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    color: var(--text-color);
+    font-family: var(--font-body);
+}
+
+.gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1400px;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-title);
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.gameHeader h2 {
+    font-size: 1.8em;
+    margin: 0;
+    text-shadow: 0 0 5px var(--secondary-neon), 0 0 10px var(--secondary-neon);
+    animation: flicker 1.5s infinite alternate;
+}
+
+.backBtn {
+    font-family: var(--font-title);
+    font-size: 0.8em;
+    color: var(--secondary-neon);
+    background-color: transparent;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+    color: var(--background-color);
+    background-color: var(--secondary-neon);
+}
+
+.gameArea {
+    width: 100%;
+    max-width: 1400px;
+    padding: 2rem;
+    border: 2px solid var(--primary-neon);
+    box-shadow: 0 0 15px var(--primary-neon);
+    border-radius: 10px;
+    background-color: rgba(13, 13, 33, 0.8); /* Darker, more thematic bg */
+    min-height: 600px;
+}
+
+/* Start Screen */
+.startScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    gap: 2rem;
+}
+
+.startScreen h1 {
+    font-family: var(--font-title);
+    font-size: 3em;
+    color: var(--primary-neon);
+    text-shadow: 0 0 10px var(--primary-neon);
+}
+
+.playBtn {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    color: var(--background-color);
+    background-color: var(--primary-neon);
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    box-shadow: 0 0 20px var(--primary-neon);
+    transition: all 0.3s ease;
+}
+
+.playBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px var(--primary-neon);
+}
+
+
+/* Main Game Layout */
+.gameContainer {
+    display: flex;
+    gap: 2rem;
+    height: 100%;
+}
+
+.lifelinesAndPrize {
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.quizArea {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Lifelines */
+.lifelines {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.lifelines button {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--secondary-neon);
+    border: 2px solid var(--secondary-neon);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    transition: all 0.3s;
+}
+
+.lifelines button:hover:not(:disabled) {
+    background-color: var(--secondary-neon);
+    color: var(--background-color);
+    box-shadow: 0 0 15px var(--secondary-neon);
+}
+
+.lifelines button.used {
+    opacity: 0.4;
+    cursor: default;
+    background-color: rgba(255, 0, 255, 0.2);
+    border-color: var(--primary-neon);
+    color: var(--primary-neon);
+    text-decoration: line-through;
+}
+
+/* Prize Ladder */
+.prizeLadder {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+}
+
+.prizeItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s;
+}
+
+.prizeItem.current {
+    background-color: var(--primary-neon);
+    color: #fff;
+    transform: scale(1.05);
+    font-weight: bold;
+    text-shadow: 0 0 5px #000;
+}
+
+.prizeItem.safetyNet {
+    color: var(--secondary-neon);
+    font-weight: bold;
+}
+
+/* Question and Answers */
+.questionContainer {
+    background-color: rgba(0,0,0,0.5);
+    border: 2px solid var(--secondary-neon);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 2rem;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.answersContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.answerBtn {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    text-align: left;
+    padding: 1.5rem;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--secondary-neon);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+    box-sizing: border-box; /* Ensures padding/border don't affect overall size */
+}
+
+.answerBtn:hover:not(:disabled) {
+    background-color: rgba(0, 255, 255, 0.2);
+    border-color: #fff;
+}
+
+.answerLetter {
+    color: var(--primary-neon);
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.selectedAnswer {
+    background-color: var(--primary-neon) !important;
+    color: var(--background-color) !important;
+    border-color: var(--primary-neon) !important;
+}
+
+.transitionColor {
+    background-color: #ffc107 !important; /* Yellow */
+    border-color: #ffc107 !important;
+    color: var(--background-color) !important;
+}
+
+.correctAnswer {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    color: #fff !important;
+}
+
+.incorrectAnswer {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: #fff !important;
+}
+
+.walkAwayBtn {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    color: var(--primary-neon);
+    background-color: transparent;
+    border: 2px solid var(--primary-neon);
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    margin: 2rem auto 0;
+    display: block;
+    transition: all 0.3s;
+}
+
+.walkAwayBtn:hover {
+    background-color: var(--primary-neon);
+    color: var(--background-color);
+}
+
+.confirmationDialog {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background-color: rgba(0,0,0,0.7);
+    border: 1px solid var(--secondary-neon);
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 15px var(--secondary-neon);
+}
+
+.confirmationDialog p {
+    font-size: 1.3em;
+    margin-bottom: 1rem;
+    color: var(--secondary-neon);
+}
+
+.confirmationButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.confirmBtn, .cancelBtn {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid;
+}
+
+.confirmBtn {
+    background-color: var(--primary-neon);
+    color: var(--background-color);
+    border-color: var(--primary-neon);
+}
+.confirmBtn:hover {
+    box-shadow: 0 0 15px var(--primary-neon);
+}
+
+.cancelBtn {
+    background-color: transparent;
+    color: var(--secondary-neon);
+    border-color: var(--secondary-neon);
+}
+.cancelBtn:hover {
+    background-color: var(--secondary-neon);
+    color: var(--background-color);
+}

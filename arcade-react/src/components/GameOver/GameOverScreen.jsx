@@ -18,7 +18,7 @@ const GameOverScreen = ({ score, onRetry, onExit }) => {
         <div className={`${styles.gameOverOverlay} ${styles.active}`}>
             <div className={styles.overlayContent}>
                 <h2 className={styles.titleFlicker}>Game Over</h2>
-                <p className={styles.finalScore}>Punteggio finale: {score}</p>
+                <p className={styles.finalScore}>{score}</p>
                 <button className={styles.retryBtn} onClick={onRetry}>Riprova</button>
                 <button className={styles.exitBtn} onClick={onExit}>Esci</button>
             </div>
