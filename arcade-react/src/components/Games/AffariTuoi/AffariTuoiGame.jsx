@@ -36,6 +36,7 @@ const AffariTuoiGame = ({ onGameOver, onBackToMenu }) => {
     const [gamePhase, setGamePhase] = useState('initial_selection'); // initial_selection, opening_packs, offer, game_over
     const [message, setMessage] = useState("Scegli il tuo pacco!");
     const [finalResultSummary, setFinalResultSummary] = useState(null); // To store the final comparison message
+    const [lastOpenedPrize, setLastOpenedPrize] = useState(null);
 
     const initializeGame = useCallback(() => {
         const shuffledPrizes = [...PRIZES].sort(() => Math.random() - 0.5);
@@ -55,6 +56,7 @@ const AffariTuoiGame = ({ onGameOver, onBackToMenu }) => {
         setGamePhase('initial_selection');
         setMessage("Scegli il tuo pacco!");
         setFinalResultSummary(null); // Reset final result summary
+        setLastOpenedPrize(null);
         // Set initial packs to open for the first round (random 2, 3, or 4)
         const initialUnopenedNonPlayerPacksCount = REGIONS.length - 1; // 19 packs initially
         setPacksToOpenBeforeOffer(calculateNextPacksToOpen(initialUnopenedNonPlayerPacksCount));
@@ -104,10 +106,12 @@ const AffariTuoiGame = ({ onGameOver, onBackToMenu }) => {
     };
 
     const openPack = (index) => {
+        const openedPrize = packs[index].prize;
         setPacks(prevPacks => prevPacks.map((pack, i) =>
             i === index ? { ...pack, isOpen: true } : pack
         ));
-        setRevealedPrizes(prev => new Set(prev).add(packs[index].prize));
+        setRevealedPrizes(prev => new Set(prev).add(openedPrize));
+        setLastOpenedPrize(openedPrize);
         setPacksOpenedThisRound(prev => prev + 1);
     };
 
@@ -168,6 +172,7 @@ const AffariTuoiGame = ({ onGameOver, onBackToMenu }) => {
     };
 
     const handleOfferDecision = (decision) => {
+        setLastOpenedPrize(null);
         if (bankerOffer.type === 'cash') {
             if (decision === 'accept') {
                 const playerPackPrize = packs.find(p => p.isPlayerPack).prize;
@@ -248,11 +253,20 @@ const AffariTuoiGame = ({ onGameOver, onBackToMenu }) => {
             <div className={styles.prizeList}>
                 <h3>Premi Rimanenti</h3>
                 <ul>
-                    {[...PRIZES].sort((a, b) => a - b).map((prize, index) => (
-                        <li key={index} className={revealedPrizes.has(prize) ? styles.eliminatedPrize : ''}>
-                            {formatCurrency(prize)}€
-                        </li>
-                    ))}
+                    {[...PRIZES].sort((a, b) => a - b).map((prize, index) => {
+                        const isEliminated = revealedPrizes.has(prize);
+                        const isLastOpened = lastOpenedPrize === prize;
+                        const itemClass = [
+                            isEliminated ? styles.eliminatedPrize : '',
+                            isLastOpened ? styles.lastOpenedPrize : ''
+                        ].join(' ').trim();
+
+                        return (
+                            <li key={index} className={itemClass}>
+                                {formatCurrency(prize)}€
+                            </li>
+                        );
+                    })}
                 </ul>
             </div>
         );

@@ -26,16 +26,14 @@ const MilionarioGame = ({ onGameOver, onBackToMenu }) => {
         fiftyFifty: true,
         phoneAFriend: true,
         askTheAudience: true,
-        retry: true,
+        switch: true,
     });
-    
-    const [isRetryUsedOnThisQuestion, setIsRetryUsedOnThisQuestion] = useState(false);
 
     // Helper to shuffle an array
     const shuffleArray = (array) => [...array].sort(() => Math.random() - 0.5);
 
     const getQuestionsForGame = useCallback(() => {
-        const difficultyMap = { 'easy': 5, 'medium': 5, 'hard': 3, 'expert': 2 };
+        const difficultyMap = { 'easy': 5, 'medium': 4, 'hard': 3, 'expert': 3 };
         let gameQuestions = [];
         for (const difficulty in difficultyMap) {
             const count = difficultyMap[difficulty];
@@ -60,14 +58,13 @@ const MilionarioGame = ({ onGameOver, onBackToMenu }) => {
             setIsAnswered(false);
             setIsTransitioning(false);
             setTransitioningAnswer(null);
-            setIsRetryUsedOnThisQuestion(false);
         }
     }, [gamePhase, questions, currentLevel]);
 
     const handleStartGame = () => {
         getQuestionsForGame();
         setCurrentLevel(0);
-        setLifelines({ fiftyFifty: true, phoneAFriend: true, askTheAudience: true, retry: true });
+        setLifelines({ fiftyFifty: true, phoneAFriend: true, askTheAudience: true, switch: true });
         setGamePhase('playing');
     };
 
@@ -96,23 +93,13 @@ const MilionarioGame = ({ onGameOver, onBackToMenu }) => {
                             setCurrentLevel(prev => prev + 1); // Load next question
                         }
                     } else {
-                        // Handle wrong answer (game over or retry)
-                        if (lifelines.retry && !isRetryUsedOnThisQuestion) {
-                            setLifelines(prev => ({ ...prev, retry: false }));
-                            setIsRetryUsedOnThisQuestion(true);
-                            setTimeout(() => {
-                                setIsAnswered(false);
-                                setLockedAnswer(null);
-                                setShuffledAnswers(prev => prev.filter(a => a !== answer));
-                            }, 500); // short delay to show retry
-                        } else {
-                            let winnings = 0;
-                            const lastSafetyNet = [...SAFETY_NETS].reverse().find(sn => currentLevel > sn);
-                            if (lastSafetyNet !== undefined) {
-                                winnings = PRIZE_LEVELS[lastSafetyNet];
-                            }
-                            onGameOver(`La risposta corretta era: "${currentQuestion.correctAnswer}". Hai vinto ${winnings.toLocaleString('it-IT')}€.`);
+                        // Handle wrong answer (game over)
+                        let winnings = 0;
+                        const lastSafetyNet = [...SAFETY_NETS].reverse().find(sn => currentLevel > sn);
+                        if (lastSafetyNet !== undefined) {
+                            winnings = PRIZE_LEVELS[lastSafetyNet];
                         }
+                        onGameOver(`La risposta corretta era: "${currentQuestion.correctAnswer}". Hai vinto ${winnings.toLocaleString('it-IT')}€.`);
                     }
                 }, 1500); // Green/Red reveal duration
     
@@ -179,6 +166,26 @@ const MilionarioGame = ({ onGameOver, onBackToMenu }) => {
         });
         alert("Risultati del pubblico:\n" + Object.entries(results).map(([ans, pct]) => `${ans}: ${pct}%`).join('\n'));
     };
+
+    const useSwitch = () => {
+        if (!lifelines.switch || isAnswered || isTransitioning) return;
+
+        const currentDifficulty = currentQuestion.difficulty;
+        const usedQuestionIds = questions.map(q => q.id);
+
+        const potentialNewQuestions = questionBank.filter(q =>
+            q.difficulty === currentDifficulty && !usedQuestionIds.includes(q.id)
+        );
+
+        if (potentialNewQuestions.length > 0) {
+            setLifelines(prev => ({ ...prev, switch: false }));
+            const newQuestion = shuffleArray(potentialNewQuestions)[0];
+            const newQuestions = questions.map(q => (q.id === currentQuestion.id ? newQuestion : q));
+            setQuestions(newQuestions);
+        } else {
+            alert("Nessuna domanda disponibile per il cambio!");
+        }
+    };
     
     // --- Style and Render Functions ---
     const getAnswerClassName = (answer) => {
@@ -214,7 +221,7 @@ const MilionarioGame = ({ onGameOver, onBackToMenu }) => {
                     <button onClick={useFiftyFifty} disabled={!lifelines.fiftyFifty || isAnswered || isTransitioning} className={!lifelines.fiftyFifty ? styles.used : ''}>50:50</button>
                     <button onClick={usePhoneAFriend} disabled={!lifelines.phoneAFriend || isAnswered || isTransitioning} className={!lifelines.phoneAFriend ? styles.used : ''}>Chiama</button>
                     <button onClick={useAskTheAudience} disabled={!lifelines.askTheAudience || isAnswered || isTransitioning} className={!lifelines.askTheAudience ? styles.used : ''}>Pubblico</button>
-                    <button onClick={() => {}} disabled={!lifelines.retry} className={!lifelines.retry ? styles.used : ''}>Retry</button>
+                    <button onClick={useSwitch} disabled={!lifelines.switch || isAnswered || isTransitioning} className={!lifelines.switch ? styles.used : ''}>Switch</button>
                 </div>
                 <div className={styles.prizeLadder}>
                     {PRIZE_LEVELS.slice().reverse().map((prize, index) => {
