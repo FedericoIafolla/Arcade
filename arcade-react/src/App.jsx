@@ -8,6 +8,7 @@ import Connect4Game from './components/Games/Connect4/Connect4Game.jsx';
 import HangmanGame from './components/Games/Hangman/HangmanGame.jsx';
 import AffariTuoiGame from './components/Games/AffariTuoi/AffariTuoiGame.jsx'; // Import AffariTuoiGame
 import MilionarioGame from './components/Games/Milionario/MilionarioGame.jsx';
+import AvantiUnAltroGame from './components/Games/AvantiUnAltro/AvantiUnAltroGame.jsx';
 import StartScreen from './components/Start/StartScreen.jsx';
 import GameOverScreen from './components/GameOver/GameOverScreen.jsx';
 
@@ -46,6 +47,9 @@ function App() {
       setGameOverInfo({ score: 0, winner: info }); // Affari Tuoi uses winner string (e.g., "Hai vinto X€!")
     } else if (selectedGame === 'milionario') {
         setGameOverInfo({ score: 0, winner: info });
+    } else if (selectedGame === 'avanti_un_altro') {
+        const prize = typeof info === 'number' && info > 0 ? `Hai vinto ${info.toLocaleString('it-IT')} €!` : 'Hai perso!';
+        setGameOverInfo({ score: 0, winner: prize });
     }
     setCurrentScreen('game_over');
   }, [selectedGame]);
@@ -122,6 +126,13 @@ function App() {
           onBackToMenu={handleBackToMenu}
         />
       )}
+      {currentScreen === 'start_game' && selectedGame === 'avanti_un_altro' && (
+        <StartScreen
+          gameName="Avanti un Altro"
+          onStartGame={handleStartGame}
+          onBackToMenu={handleBackToMenu}
+        />
+      )}
 
       {currentScreen === 'active_game' && selectedGame === 'snake' && (
         <SnakeGame
@@ -167,6 +178,12 @@ function App() {
       )}
       {currentScreen === 'active_game' && selectedGame === 'milionario' && (
         <MilionarioGame
+          onGameOver={handleGameOver}
+          onBackToMenu={handleBackToMenu}
+        />
+      )}
+      {currentScreen === 'active_game' && selectedGame === 'avanti_un_altro' && (
+        <AvantiUnAltroGame
           onGameOver={handleGameOver}
           onBackToMenu={handleBackToMenu}
         />
@@ -226,6 +243,13 @@ function App() {
           score={gameOverInfo.winner}
           onRetry={handleRetryGame}
           onExit={handleBackToMenu}
+        />
+      )}
+      {currentScreen === 'game_over' && selectedGame === 'avanti_un_altro' && (
+        <GameOverScreen
+            score={gameOverInfo.winner}
+            onRetry={handleRetryGame}
+            onExit={handleBackToMenu}
         />
       )}
     </>

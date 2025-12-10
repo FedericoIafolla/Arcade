@@ -1,0 +1,113 @@
+.gameContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align to top */
+    height: 100%;
+    width: 100%;
+    font-family: var(--font-body);
+    color: var(--text-color);
+    background: var(--container-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 25px var(--primary-neon), inset 0 0 15px rgba(0, 255, 255, 0.3);
+    box-sizing: border-box;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem; /* Reduced font size */
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.prize, .timer, .progress {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    border: 1px solid var(--secondary-neon);
+    box-shadow: 0 0 8px var(--secondary-neon);
+    flex-grow: 1;
+    flex-basis: 0;
+    font-family: var(--font-title);
+}
+
+.questionContainer {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.questionText {
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    min-height: 7rem;
+    color: var(--primary-neon);
+    text-shadow: 0 0 5px var(--primary-neon);
+}
+
+.answers {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.answer {
+    background-color: transparent;
+    padding: 1rem 2rem;
+    border: 2px solid var(--secondary-neon);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: all 0.2s ease;
+    width: 40%;
+    color: var(--secondary-neon);
+    text-shadow: 0 0 5px var(--secondary-neon);
+}
+
+.selected {
+    background-color: var(--secondary-neon);
+    color: var(--background-color);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--secondary-neon);
+}
+
+.messageContainer {
+    margin-top: auto; /* Push to the bottom */
+    text-align: center;
+}
+
+.freezeMessage {
+    font-size: 1.5rem;
+    color: var(--primary-neon);
+    animation: pulse 1.5s infinite;
+    text-shadow: 0 0 10px var(--primary-neon);
+}
+
+.perQuestionTimer {
+    font-size: 1.5rem;
+    color: #ff5252;
+    font-family: var(--font-title);
+    border-color: #ff5252;
+    box-shadow: 0 0 8px #ff5252;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
